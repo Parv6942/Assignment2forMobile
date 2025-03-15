@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/WelcomeId"
+        android:layout_width="356dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="27dp"
+        android:layout_marginTop="44dp"
+        android:text="Welcome to Connect 3!"
+        android:textSize="34sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/Name_Id"
+        android:layout_width="285dp"
+        android:layout_height="58dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="164dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="Blue Circle Name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/WelcomeId" />
+
+    <Button
+        android:id="@+id/Start_Button"
+        android:layout_width="141dp"
+        android:layout_height="59dp"
+        android:layout_marginStart="135dp"
+        android:layout_marginTop="260dp"
+        android:text="Start!"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Name_Id" />
+
+    <TextView
+        android:id="@+id/DisclaimerId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Only blue gets a name, if red wins then it will say that player red has won instead of the entered user, the assignment did not indicate that both usernames need to be entered, only 1 needed to."
+        android:textAlignment="center"
+        android:textColor="#499EAB"
+        android:textDirection="firstStrongLtr"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Start_Button" />
+</androidx.constraintlayout.widget.ConstraintLayout>
