@@ -1,8 +1,9 @@
 package com.example.connect3game
 
-import android.os.Bundle;
+import android.annotation.SuppressLint
+import android.os.Bundle
 import android.view.MotionEvent
-import android.view.View;
+import android.view.View
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ class MainActivity : AppCompatActivity() {
     private var gameOver = false
     private var bluePlayerName: String? = null
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -30,18 +32,55 @@ class MainActivity : AppCompatActivity() {
 
         bluePlayerName = intent.getStringExtra("USERNAME")
 
+        updateTurnText()
+
         gameGrid.setOnTouchListener { v, event ->
             if (!gameOver && event.action == MotionEvent.ACTION_DOWN) {
                 val touchX = event.x
+                val touchY = event.y
                 val column = getColumnFromClick(touchX)
-                dropPiece(column)
+                val row = getRowFromClick(touchY)
+
+                // Only place a piece if the cell is empty
+                if (gameBoard[row][column] == 0) {
+                    gameBoard[row][column] = currentPlayer
+                    updateUI(row, column)
+                    if (checkWin(row, column)) {
+                        gameOver = true
+                        if (currentPlayer == 2) {
+                            winnerTextView.text = "$bluePlayerName Won!"
+                        } else {
+                            winnerTextView.text = "Red Player Won!"
+                        }
+                        winnerTextView.visibility = View.VISIBLE
+                    } else if (checkDraw()) {
+                        gameOver = true
+                        winnerTextView.text = "It's a Draw!"
+                        winnerTextView.visibility = View.VISIBLE
+                    } else {
+                        switchPlayer()
+                        updateTurnText()
+                    }
+                }
             }
             true
         }
 
         startOverButton.setOnClickListener {
             resetGame()
+            updateTurnText()
         }
+    }
+
+    private fun updateTurnText() {
+        winnerTextView.visibility = View.VISIBLE
+        winnerTextView.text = if (currentPlayer == 2) "$bluePlayerName's Turn" else "Red Player's Turn"
+    }
+
+    private fun getRowFromClick(y: Float): Int {
+        val gridHeight = gameGrid.height
+        val rowHeight = gridHeight / 3
+        return (y / rowHeight).toInt()
     }
 
     private fun getColumnFromClick(x: Float): Int {
@@ -51,36 +90,6 @@ class MainActivity : AppCompatActivity() {
         return (x / columnWidth).toInt()
     }
 
-    private fun dropPiece(column: Int) {
-        // Find the next available row in the selected column
-        var row = -1
-        for (i in 2 downTo 0) {
-            if (gameBoard[i][column] == 0) {
-                row = i
-                break
-            }
-        }
-
-        if (row != -1) {
-            gameBoard[row][column] = currentPlayer
-            updateUI(row, column)
-            if (checkWin(row, column)) {
-                gameOver = true
-                if (currentPlayer == 2) {
-                    winnerTextView.text = "$bluePlayerName Won!"
-                } else {
-                    winnerTextView.text = "Red Player Won!"
-                }
-                winnerTextView.visibility = View.VISIBLE
-            } else if (checkDraw()) {
-                gameOver = true
-                winnerTextView.text = "It's a Draw!"
-                winnerTextView.visibility = View.VISIBLE
-            } else {
-                switchPlayer()
-            }
-        }
-    }
 
     private fun updateUI(row: Int, column: Int) {
         val newPiece = ImageView(this)
