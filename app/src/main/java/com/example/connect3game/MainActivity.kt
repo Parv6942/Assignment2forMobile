@@ -1,23 +1,22 @@
 package com.example.connect3game
 
-import android.os.Bundle
-import android.view.View
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
-//import androidx.compose.ui.semantics.text
-import androidx.constraintlayout.widget.ConstraintLayout
-//import androidx.glance.visibility
+import android.os.Bundle;
+import android.view.MotionEvent
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 class MainActivity : AppCompatActivity() {
     private lateinit var gameGrid: ImageView
     private lateinit var startOverButton: Button
     private lateinit var winnerTextView: TextView
-
     private var currentPlayer = 1 // 1 for red, 2 for blue
-    private var gameBoard = Array(3) { IntArray(3) { 0 } } // 0 for empty, 1 for red, 2 for blue
+    private var gameBoard = Array(3) { IntArray(3) }  // 0 for empty, 1 for red, 2 for blue
     private var gameOver = false
+    private var bluePlayerName: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,11 +28,15 @@ class MainActivity : AppCompatActivity() {
 
         gameGrid.setImageResource(R.drawable.grid)
 
-        gameGrid.setOnClickListener {
-            if (!gameOver) {
-                val column = getColumnFromClick(it.x)
+        bluePlayerName = intent.getStringExtra("USERNAME")
+
+        gameGrid.setOnTouchListener { v, event ->
+            if (!gameOver && event.action == MotionEvent.ACTION_DOWN) {
+                val touchX = event.x
+                val column = getColumnFromClick(touchX)
                 dropPiece(column)
             }
+            true
         }
 
         startOverButton.setOnClickListener {
@@ -63,7 +66,11 @@ class MainActivity : AppCompatActivity() {
             updateUI(row, column)
             if (checkWin(row, column)) {
                 gameOver = true
-                winnerTextView.text = "Player ${if (currentPlayer == 1) "Red" else "Blue"} Wins!"
+                if (currentPlayer == 2) {
+                    winnerTextView.text = "$bluePlayerName Won!"
+                } else {
+                    winnerTextView.text = "Red Player Won!"
+                }
                 winnerTextView.visibility = View.VISIBLE
             } else if (checkDraw()) {
                 gameOver = true
