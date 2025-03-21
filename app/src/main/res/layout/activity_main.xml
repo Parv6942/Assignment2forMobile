@@ -8,16 +8,7 @@
     tools:context=".MainActivity">
 
 
-    <ImageView
-        android:id="@+id/gameGrid"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginStart="35dp"
-        android:layout_marginTop="48dp"
-        android:src="@drawable/grid"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/StartOver_Id" />
+
 
     <TextView
         android:id="@+id/Connect3text"
@@ -48,13 +39,12 @@
         android:id="@+id/blueCircle"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_centerInParent="true"
-        android:layout_marginStart="68dp"
-        android:layout_marginTop="42dp"
         android:src="@drawable/bluecircle"
         android:visibility="invisible"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gameGrid" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView2"
@@ -78,4 +68,16 @@
         android:textColorLink="#CECECE"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <ImageView
+        android:id="@+id/gameGrid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/grid"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/StartOver_Id" />
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
